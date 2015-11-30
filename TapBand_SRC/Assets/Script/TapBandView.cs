@@ -9,4 +9,7 @@ public class TapBandView : TapBandElement
     public BandMemberView drums;
     public BandMemberView vocal;
 
+    public GUIText goldScore;
+    public GUIText fanScore;
+
 }
