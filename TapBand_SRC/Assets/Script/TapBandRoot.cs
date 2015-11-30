@@ -7,4 +7,9 @@ public class TapBandRoot : MonoBehaviour {
     public TapBandView view;
     public TapBandController controller;
     
+    void Start()
+    {
+        Screen.SetResolution(600, 900, false);
+    }
+
 }
