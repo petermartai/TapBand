@@ -4,9 +4,16 @@ using System;
 
 public class BassView : BandMemberView
 {
+    private BassController bassController;
+
+    void Start()
+    {
+        bassController = (BassController)FindObjectOfType(typeof(BassController));
+    }
+
     protected override void TapEventTrigger()
     {
-        app.controller.bass.TapEventOnBandMember();
+        bassController.TapEventOnBandMember();
     }
 
 }

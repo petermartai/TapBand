@@ -1,11 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BandMemberController : TapBandElement {
+public abstract class BandMemberController : MonoBehaviour
+{
+
+    private GameState gameState;
+
+    void Start()
+    {
+        gameState = GameState.instance;
+    }
 
     public void TapEventOnBandMember()
     {
-        app.model.gameModel.money++;
-        app.view.goldScore.text = "Gold: " + app.model.gameModel.money;
+        // should notify, instead of this
+        // cathc the notification in HudController
+        gameState.money++;
     }
 }

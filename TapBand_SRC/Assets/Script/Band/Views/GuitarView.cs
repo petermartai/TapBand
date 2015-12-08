@@ -3,9 +3,15 @@ using System.Collections;
 
 public class GuitarView : BandMemberView {
 
-    protected override void TapEventTrigger()
+    private GuitarController guitarController;
+
+    void Start()
     {
-        app.controller.guitar.TapEventOnBandMember();
+        guitarController = (GuitarController)FindObjectOfType(typeof(GuitarController));
     }
 
+    protected override void TapEventTrigger()
+    {
+        guitarController.TapEventOnBandMember();
+    }
 }

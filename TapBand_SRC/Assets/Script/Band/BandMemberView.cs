@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BandMemberView : TapBandElement {
+public abstract class BandMemberView : MonoBehaviour {
 
     private float shakeY;
     private float shakeYSpeed = 0.8f;

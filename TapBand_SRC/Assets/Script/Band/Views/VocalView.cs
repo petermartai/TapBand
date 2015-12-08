@@ -4,9 +4,16 @@ using System;
 
 public class VocalView : BandMemberView {
 
+    private VocalController vocalController;
+
+    void Start()
+    {
+        vocalController = (VocalController)FindObjectOfType(typeof(VocalController));
+    }
+
     protected override void TapEventTrigger()
     {
-        app.controller.vocal.TapEventOnBandMember();
+        vocalController.TapEventOnBandMember();
     }
 
 }

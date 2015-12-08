@@ -1,9 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameState : TapBandElement {
+[System.Serializable]
+public class GameState {
 
-    public long mood = 0;
-    public int passedTimeInSeconds = 0;
+    public long mood;
+    public int passedTimeInSeconds;
 
+    public long money;
+    public long numberOfFans;
+
+
+    #region Singleton access
+    private static GameState _instance;
+    public static GameState instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<GameStateHolder>().gameState;
+            }
+            return _instance;
+        }
+    }
+    #endregion
 }
