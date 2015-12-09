@@ -14,7 +14,16 @@ public abstract class BandMemberController : MonoBehaviour
     public void TapEventOnBandMember()
     {
         // should notify, instead of this
-        // cathc the notification in HudController
-        gameState.money++;
+        // catch the notification in HudController
+        gameState.increaseTapAndNumberOfFans();
+        checkTapCountAndGiveMoney();
+    }
+
+    private void checkTapCountAndGiveMoney()
+    {
+        if (gameState.tapDuringSong > gameState.songLengthInSeconds)
+        {
+            gameState.money++;
+        }
     }
 }
