@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Runtime.Serialization;
 
 [System.Serializable]
 public class GameData
@@ -22,15 +25,92 @@ public class GameData
     }
     #endregion
 
-    /*
-    public List<ExampleData> exampleDatas { get { return _exampleDatas; } }
-    private List<ExampleData> _exampleDatas;
+    private List<SongData> songDataList;
+    private List<ConcertData> concertDataList;
+    private List<TourData> tourDataList;
+    private List<EquipmentData> equipmentDataList;
+    private List<MerchData> merchDataList;
+    private List<GeneralData> generalDataList;
 
-    public void LoadWithLoader(IGameDataLoader gameDataLoader)
+    public List<SongData> SongDataList
     {
-        _exampleDatas = gameDataLoader.LoadExampleDatas();
+        get
+        {
+            return songDataList;
+        }
+
+        set
+        {
+            songDataList = value;
+        }
     }
 
+    public List<ConcertData> ConcertDataList
+    {
+        get
+        {
+            return concertDataList;
+        }
+
+        set
+        {
+            concertDataList = value;
+        }
+    }
+
+    public List<TourData> TourDataList
+    {
+        get
+        {
+            return tourDataList;
+        }
+
+        set
+        {
+            tourDataList = value;
+        }
+    }
+
+    public List<EquipmentData> EquipmentDataList
+    {
+        get
+        {
+            return equipmentDataList;
+        }
+
+        set
+        {
+            equipmentDataList = value;
+        }
+    }
+
+    public List<MerchData> MerchDataList
+    {
+        get
+        {
+            return merchDataList;
+        }
+
+        set
+        {
+            merchDataList = value;
+        }
+    }
+
+    public List<GeneralData> GeneralDataList
+    {
+        get
+        {
+            return generalDataList;
+        }
+
+        set
+        {
+            generalDataList = value;
+        }
+    }
+
+    
     public void TryLoadFromStreamingAssets()
     {
         IFormatter formatter = new BinaryFormatter();
@@ -52,7 +132,12 @@ public class GameData
         MemoryStream ms = new MemoryStream(byteArray);
         GameData gd = (GameData)formatter.Deserialize(ms);
 
-        SetGameData(gd);
+        this.songDataList = gd.songDataList;
+        this.concertDataList = gd.concertDataList;
+        this.tourDataList = gd.tourDataList;
+        this.merchDataList = gd.merchDataList;
+        this.equipmentDataList = gd.equipmentDataList;
+        this.generalDataList = gd.generalDataList;
     }
 
     private byte[] byteArray;
@@ -68,11 +153,6 @@ public class GameData
         byteArray = www.bytes;
     }
 
-    private void SetGameData(GameData gd)
-    {
-        _exampleDatas = gd.exampleDatas;
-    }
-
     public void SaveToFile(string filePath)
     {
         BinaryFormatter bf = new BinaryFormatter();
@@ -85,5 +165,5 @@ public class GameData
         // Save to file
         File.WriteAllBytes(filePath, normalByteArray);
     }
-    */
+
 }

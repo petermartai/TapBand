@@ -2,5 +2,5 @@
 
 public interface IGameDataLoader
 {
-	List<SongData> LoadExampleDatas();
+	GameData LoadGameData();
 }

@@ -123,45 +123,51 @@ public class RawGameDataLoader : IGameDataLoader
 		}
 	}
 
-	#endregion
-	
-	public List<SongData> LoadExampleDatas()
+    private void TryLoadBool(int rowIndex, string columnName, out bool data)
+    {
+        if (!IsCellExist(rowIndex, columnName) || string.IsNullOrEmpty(currentRows[rowIndex][columnName]))
+        {
+            data = false;
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " is empty or null! Row number: " + (rowIndex + 2));
+        }
+        else
+        {
+            data = currentRows[rowIndex][columnName].Equals("TRUE") ? true : false;
+        }
+    }
+
+    #endregion
+
+    public GameData LoadGameData()
 	{
-		List<SongData> dataObjects = new List<SongData>();
-
-		dataObjects.Add(LoadSongData(0));
-
-		return dataObjects;
+        GameData gameData = new GameData();
+        gameData.SongDataList = LoadSongData();
+        // TODO: continue
+		return gameData;
 	}
 	
-	private SongData LoadSongData(int index)
+	private List<SongData> LoadSongData()
 	{
-		currentSheet = "SongSheet";
+		currentSheet = "SongData";
 		currentRows = dataReader.GetRows(currentSheet);
 
-		int edId = 0;
-		TryLoadInt (0, "Id", out edId);
+        List<SongData> songDataList = new List<SongData>();
 
-        SongData songDataObject = new SongData(edId);
-
-		TryLoadString (0, "Name", out songDataObject.name);
-		
-		songDataObject.levelDatas = new List<SongData.LevelData>();
-
-		// Level 0 skip
-		songDataObject.levelDatas.Add (new SongData.LevelData());
-		
-		int rowNum = currentRows.Count;
+        int rowNum = currentRows.Count;
 		for (int i = 0; i < rowNum; i++)
 		{
-            SongData.LevelData levelDataObject = new SongData.LevelData();
+            SongData songDataObject = new SongData();
 
-			TryLoadBigInteger(i, "Coin", out levelDataObject.coin);
-			TryLoadBigInteger(i, "UpgradeCost", out levelDataObject.upgradeCost);
-			
-			songDataObject.levelDatas.Add(levelDataObject);
+            TryLoadInt(i, "ID", out songDataObject.id);
+            TryLoadString(i, "Title", out songDataObject.title);
+            TryLoadInt(i, "FanGoal", out songDataObject.fanGoal);
+            TryLoadInt(i, "Duration", out songDataObject.duration);
+            TryLoadInt(i, "CoinReward", out songDataObject.coinReward);
+            TryLoadBool(i, "BossBattle", out songDataObject.bossBattle);
+            TryLoadInt(i, "ConcertID", out songDataObject.concertID);
+            songDataList.Add(songDataObject);
 		}
 		
-		return songDataObject;
+		return songDataList;
 	}
 }
