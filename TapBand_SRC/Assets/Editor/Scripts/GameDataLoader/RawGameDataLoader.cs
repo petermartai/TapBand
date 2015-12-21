@@ -160,7 +160,7 @@ public class RawGameDataLoader : IGameDataLoader
 
             TryLoadInt(i, "ID", out songDataObject.id);
             TryLoadString(i, "Title", out songDataObject.title);
-            TryLoadInt(i, "FanGoal", out songDataObject.fanGoal);
+            TryLoadInt(i, "TapGoal", out songDataObject.tapGoal);
             TryLoadInt(i, "Duration", out songDataObject.duration);
             TryLoadInt(i, "CoinReward", out songDataObject.coinReward);
             TryLoadBool(i, "BossBattle", out songDataObject.bossBattle);
