@@ -11,7 +11,7 @@ public class TapController
     {
         this.view = view;
 
-        view.OnTap += HandleTap;
+        this.view.OnTap += HandleTap;
     }
 
     private void HandleTap(TapArgs args)
