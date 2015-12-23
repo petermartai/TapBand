@@ -9,7 +9,7 @@ public class GameStateHolder : MonoBehaviour
     void Awake()
     {
         gameData = new GameData();
-        // gameData.TryLoadFromStreamingAssets();
+        gameData.TryLoadFromStreamingAssets();
         gameState = new GameState();
         // gameState.TryLoadFromStreamingAssets();
     }
