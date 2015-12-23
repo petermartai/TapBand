@@ -20,7 +20,6 @@ public class TapView : MonoBehaviour
     public delegate void TapEvent(TapArgs args);
     public event TapEvent OnTap;
 
-	// Use this for initialization
 	void Start()
     {
         _collider = GetComponent<Collider2D>();

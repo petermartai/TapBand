@@ -7,7 +7,7 @@ public class TapController
     public delegate void TapEvent(BigInteger value);
     public event TapEvent OnTap;
 
-    TapController(TapView view)
+    public TapController(TapView view)
     {
         this.view = view;
 
