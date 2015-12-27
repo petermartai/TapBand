@@ -5,7 +5,7 @@ public class MainScript : MonoBehaviour
 	void Awake()
     {
         GameObject obj = GameObject.Find("TapArea");
-        TapView view = obj.GetComponent<TapView>();
+        TapUI view = obj.GetComponent<TapUI>();
         new TapController(view);
     }
 }

@@ -13,7 +13,7 @@ public class TapArgs
     }
 }
 
-public class TapView : MonoBehaviour
+public class TapUI : MonoBehaviour
 {
     private Collider2D _collider;
 

@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class TapController
 {
-    private TapView view;
+    private TapUI view;
 
     public delegate void TapEvent(BigInteger value);
     public event TapEvent OnTap;
 
-    public TapController(TapView view)
+    public TapController(TapUI view)
     {
         this.view = view;
 
