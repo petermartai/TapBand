@@ -1,18 +1,33 @@
 using UnityEngine;
 
-public class TapController
+public class TapController : MonoBehaviour
 {
-    private TapUI view;
+    private TapUI tapUI;
 
     public delegate void TapEvent(BigInteger value);
     public event TapEvent OnTap;
 
-    public TapController(TapUI view)
+    void Awake()
     {
-        this.view = view;
-
-        this.view.OnTap += HandleTap;
+        BindWithUI();
     }
+
+    void OnEnable()
+    {
+        tapUI.OnTap += HandleTap;
+    }
+
+    void OnDisable()
+    {
+        tapUI.OnTap -= HandleTap;
+    }
+
+    #region MVC bindings
+    private void BindWithUI()
+    {
+        tapUI = (TapUI)FindObjectOfType(typeof(TapUI));
+    }
+    #endregion
 
     private void HandleTap(TapArgs args)
     {
