@@ -31,6 +31,10 @@ public class TapController : MonoBehaviour
 
     private void HandleTap(TapArgs args)
     {
+        foreach(Vector3 position in args.positions)
+        {
+            tapUI.DisplayTapValueAt(position, 1);
+        }
         if (OnTap != null)
         {
             BigInteger tapValue = CalculateTapValue(args.positions.Count);

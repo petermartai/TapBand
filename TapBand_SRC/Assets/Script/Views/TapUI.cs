@@ -17,6 +17,8 @@ public class TapUI : MonoBehaviour
 {
     private Collider2D _collider;
 
+    public GameObject risingText;
+
     public delegate void TapEvent(TapArgs args);
     public event TapEvent OnTap;
 
@@ -42,6 +44,15 @@ public class TapUI : MonoBehaviour
         args.positions.Add(Input.mousePosition);
         if (OnTap != null)
             OnTap(args);
+    }
+
+    public void DisplayTapValueAt(Vector3 position, BigInteger value)
+    {
+        GameObject canvas = GameObject.Find("Canvas");
+        GameObject text = (GameObject) Instantiate(risingText);
+        text.transform.position = position;
+        text.transform.SetParent(canvas.transform);
+        text.GetComponent<RisingText>().Setup("+" + value.ToString(), 3f, 100f);
     }
 
     private TapArgs CalculateTapEventArgs()
