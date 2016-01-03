@@ -60,7 +60,22 @@ public class RawGameDataLoader : IGameDataLoader
 		}
 	}
 
-	private void TryLoadBigInteger(int rowIndex, string columnName, out BigInteger data)
+    private void TryLoadFloat(int rowIndex, string columnName, out float data)
+    {
+        if (!IsCellExist(rowIndex, columnName))
+        {
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " column is invalid! Row number: " + (rowIndex + 2));
+        }
+
+        string cellValue = currentRows[rowIndex][columnName];
+
+        if (!float.TryParse(cellValue, out data))
+        {
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " is not valid float! Row number: " + (rowIndex + 2));
+        }
+    }
+
+    private void TryLoadBigInteger(int rowIndex, string columnName, out BigInteger data)
 	{
         data = new BigInteger(0);
         try
@@ -142,6 +157,7 @@ public class RawGameDataLoader : IGameDataLoader
 	{
         GameData gameData = new GameData();
         gameData.SongDataList = LoadSongData();
+        gameData.TourDataList = LoadTourData();
         // TODO: continue
 		return gameData;
 	}
@@ -170,4 +186,27 @@ public class RawGameDataLoader : IGameDataLoader
 		
 		return songDataList;
 	}
+
+    private List<TourData> LoadTourData()
+    {
+        currentSheet = "TourData";
+        currentRows = dataReader.GetRows(currentSheet);
+
+        List<TourData> tourDataList = new List<TourData>();
+
+        int rowNum = currentRows.Count;
+        for (int i = 0; i < rowNum; i++)
+        {
+            TourData tourDataObject = new TourData();
+
+            TryLoadInt(i, "ID", out tourDataObject.id);
+            TryLoadInt(i, "Level", out tourDataObject.level);
+            TryLoadFloat(i, "CoinMultiplier", out tourDataObject.coinMultiplier);
+            TryLoadFloat(i, "FanMultiplier", out tourDataObject.fanMultiplier);
+            TryLoadFloat(i, "TapMultiplier", out tourDataObject.tapMultiplier);
+            tourDataList.Add(tourDataObject);
+        }
+
+        return tourDataList;
+    }
 }
