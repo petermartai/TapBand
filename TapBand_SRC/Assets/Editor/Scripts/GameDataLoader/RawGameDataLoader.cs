@@ -60,7 +60,22 @@ public class RawGameDataLoader : IGameDataLoader
 		}
 	}
 
-	private void TryLoadBigInteger(int rowIndex, string columnName, out BigInteger data)
+    private void TryLoadFloat(int rowIndex, string columnName, out float data)
+    {
+        if (!IsCellExist(rowIndex, columnName))
+        {
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " column is invalid! Row number: " + (rowIndex + 2));
+        }
+
+        string cellValue = currentRows[rowIndex][columnName];
+
+        if (!float.TryParse(cellValue, out data))
+        {
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " is not valid float! Row number: " + (rowIndex + 2));
+        }
+    }
+
+    private void TryLoadBigInteger(int rowIndex, string columnName, out BigInteger data)
 	{
         data = new BigInteger(0);
         try
@@ -123,45 +138,75 @@ public class RawGameDataLoader : IGameDataLoader
 		}
 	}
 
-	#endregion
-	
-	public List<SongData> LoadExampleDatas()
+    private void TryLoadBool(int rowIndex, string columnName, out bool data)
+    {
+        if (!IsCellExist(rowIndex, columnName) || string.IsNullOrEmpty(currentRows[rowIndex][columnName]))
+        {
+            data = false;
+            AbortWithErrorMessage(currentSheet + "::" + columnName + " is empty or null! Row number: " + (rowIndex + 2));
+        }
+        else
+        {
+            data = currentRows[rowIndex][columnName].Equals("TRUE") ? true : false;
+        }
+    }
+
+    #endregion
+
+    public GameData LoadGameData()
 	{
-		List<SongData> dataObjects = new List<SongData>();
-
-		dataObjects.Add(LoadSongData(0));
-
-		return dataObjects;
+        GameData gameData = new GameData();
+        gameData.SongDataList = LoadSongData();
+        gameData.TourDataList = LoadTourData();
+        // TODO: continue
+		return gameData;
 	}
 	
-	private SongData LoadSongData(int index)
+	private List<SongData> LoadSongData()
 	{
-		currentSheet = "SongSheet";
+		currentSheet = "SongData";
 		currentRows = dataReader.GetRows(currentSheet);
 
-		int edId = 0;
-		TryLoadInt (0, "Id", out edId);
+        List<SongData> songDataList = new List<SongData>();
 
-        SongData songDataObject = new SongData(edId);
-
-		TryLoadString (0, "Name", out songDataObject.name);
-		
-		songDataObject.levelDatas = new List<SongData.LevelData>();
-
-		// Level 0 skip
-		songDataObject.levelDatas.Add (new SongData.LevelData());
-		
-		int rowNum = currentRows.Count;
+        int rowNum = currentRows.Count;
 		for (int i = 0; i < rowNum; i++)
 		{
-            SongData.LevelData levelDataObject = new SongData.LevelData();
+            SongData songDataObject = new SongData();
 
-			TryLoadBigInteger(i, "Coin", out levelDataObject.coin);
-			TryLoadBigInteger(i, "UpgradeCost", out levelDataObject.upgradeCost);
-			
-			songDataObject.levelDatas.Add(levelDataObject);
+            TryLoadInt(i, "ID", out songDataObject.id);
+            TryLoadString(i, "Title", out songDataObject.title);
+            TryLoadInt(i, "TapGoal", out songDataObject.tapGoal);
+            TryLoadInt(i, "Duration", out songDataObject.duration);
+            TryLoadInt(i, "CoinReward", out songDataObject.coinReward);
+            TryLoadBool(i, "BossBattle", out songDataObject.bossBattle);
+            TryLoadInt(i, "ConcertID", out songDataObject.concertID);
+            songDataList.Add(songDataObject);
 		}
 		
-		return songDataObject;
+		return songDataList;
 	}
+
+    private List<TourData> LoadTourData()
+    {
+        currentSheet = "TourData";
+        currentRows = dataReader.GetRows(currentSheet);
+
+        List<TourData> tourDataList = new List<TourData>();
+
+        int rowNum = currentRows.Count;
+        for (int i = 0; i < rowNum; i++)
+        {
+            TourData tourDataObject = new TourData();
+
+            TryLoadInt(i, "ID", out tourDataObject.id);
+            TryLoadInt(i, "Level", out tourDataObject.level);
+            TryLoadFloat(i, "CoinMultiplier", out tourDataObject.coinMultiplier);
+            TryLoadFloat(i, "FanMultiplier", out tourDataObject.fanMultiplier);
+            TryLoadFloat(i, "TapMultiplier", out tourDataObject.tapMultiplier);
+            tourDataList.Add(tourDataObject);
+        }
+
+        return tourDataList;
+    }
 }

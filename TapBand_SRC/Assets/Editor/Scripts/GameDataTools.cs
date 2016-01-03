@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.IO;
 using System.Collections;
+using System.Net;
 
 [ExecuteInEditMode]
 public class GameDataTools : EditorWindow 
@@ -65,8 +66,11 @@ public class GameDataTools : EditorWindow
 		
 		if (GUILayout.Button("Download"))
 		{
-			Debug.LogError("Implement GameData download!");
-		}
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(sourceURL, gameDataDownloadFileName);
+            }
+        }
 	}
 
 	private void ConvertToResourceFileGUI()
@@ -84,7 +88,7 @@ public class GameDataTools : EditorWindow
 			{
 				IGameDataLoader rawGameDataLoader  = 
 					new RawGameDataLoader(dataRawPath + gameDataConvertFileName);
-				//gameData.LoadWithLoader(rawGameDataLoader);
+                gameData = rawGameDataLoader.LoadGameData();
 			}
 			catch(System.Exception e)
 			{
@@ -105,7 +109,7 @@ public class GameDataTools : EditorWindow
 
 			try
 			{
-				//gameData.SaveToFile(savePath);
+                gameData.SaveToFile(savePath);
 			}
 			catch(System.Exception e)
 			{

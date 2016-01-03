@@ -20,12 +20,12 @@ public class GeneralTools : EditorWindow
 
         EditorGUILayout.EndHorizontal();
     }
-	
-	private void DeletePlayerPrefsAndPersistenceButton()
-	{
-		if(GUILayout.Button("Delete PlayerPrefs and Persistence"))
-		{			
-			Debug.LogError("Implement PlayerPrefs and Persistence delete!");
-		}
-	}
+
+    private void DeletePlayerPrefsAndPersistenceButton()
+    {
+        if (GUILayout.Button("Delete PlayerPrefs and Persistence"))
+        {
+            Debug.LogError("Implement PlayerPrefs and Persistence delete!");
+        }
+    }
 }

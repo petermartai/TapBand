@@ -3,7 +3,22 @@ using System.Collections;
 
 [System.Serializable]
 public class GameState {
-    
+
+    #region Singleton access
+    private static GameState _instance;
+    public static GameState instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<GameStateHolder>().gameState;
+            }
+            return _instance;
+        }
+    }
+    #endregion
+
     public int songLengthInSeconds = 20;
     public int passedTimeInSeconds;
 
@@ -40,18 +55,4 @@ public class GameState {
     }
 
 
-    #region Singleton access
-    private static GameState _instance;
-    public static GameState instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<GameStateHolder>().gameState;
-            }
-            return _instance;
-        }
-    }
-    #endregion
 }
