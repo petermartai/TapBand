@@ -136,13 +136,15 @@ public class RawGameDataLoader : IGameDataLoader
         }
     }
 
+
     #endregion
 
     public GameData LoadGameData()
 	{
         GameData gameData = new GameData();
         gameData.SongDataList = LoadSongData();
-        // TODO: continue
+		gameData.ConcertDataList = LoadConcertData ();
+		// TODO: continue
 		return gameData;
 	}
 	
@@ -170,4 +172,30 @@ public class RawGameDataLoader : IGameDataLoader
 		
 		return songDataList;
 	}
+
+	private List<ConcertData> LoadConcertData()
+	{
+		currentSheet = "ConcertData";
+		currentRows = dataReader.GetRows (currentSheet);
+
+		List<ConcertData> concertDataList = new List<ConcertData> ();
+
+		int rowNum = currentRows.Count;
+		for (int i = 0; i<rowNum; i++) 
+		{
+			ConcertData concertDataObject = new ConcertData();
+
+			TryLoadInt(i, "ID", out concertDataObject.id);
+			TryLoadString(i, "Name", out concertDataObject.name);
+			TryLoadInt(i, "FanReward", out concertDataObject.fanReward);
+			TryLoadInt(i, "CoinReward", out concertDataObject.coinReward);
+			concertDataList.Add(concertDataObject);
+		}
+
+		return concertDataList;
+	
+	}
+
+
+
 }
