@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Restart : MonoBehaviour {
+public class RestartUI : MonoBehaviour {
 
     public delegate void NewLevelEvent();
     public event NewLevelEvent NewLevel;
@@ -10,7 +10,6 @@ public class Restart : MonoBehaviour {
     public delegate bool RestartEnabledEvent();
     public event RestartEnabledEvent RestartEnabled;
 
-    // Use this for initialization
     public GameObject restartPanelButton,restartPanel,restartButton;
 	
 	public void Start()

@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class TourController : MonoBehaviour {
 
     private HudUI hud;
-    private Restart restart;
+    private RestartUI restart;
 
     void Awake()
     {
         hud = (HudUI)FindObjectOfType(typeof(HudUI));
-        restart = (Restart)FindObjectOfType(typeof(Restart));
+        restart = (RestartUI)FindObjectOfType(typeof(RestartUI));
     }
 
     void OnEnable()

@@ -3,7 +3,6 @@ using System.Collections;
 
 public abstract class BandMemberController : MonoBehaviour
 {
-
     private GameState gameState;
 
     void Start()
