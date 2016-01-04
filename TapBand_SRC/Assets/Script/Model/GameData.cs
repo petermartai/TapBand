@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Runtime.Serialization;
+using System;
 
 [System.Serializable]
-public class GameData
+public class GameData : LoadableData
 {
     public const string GAME_DATA_PATH = "gamedata";
 
@@ -110,26 +111,10 @@ public class GameData
         }
     }
 
-    
-    public void TryLoadFromStreamingAssets()
+    #region Overridden functions for loading/saving
+    protected override void LoadData(MemoryStream ms)
     {
         IFormatter formatter = new BinaryFormatter();
-
-        string gameDataPath = "Data/" + GAME_DATA_PATH;
-        gameDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, gameDataPath);
-
-        // Load GameData byte[]
-#if UNITY_ANDROID && !UNITY_EDITOR
-		IEnumerator a = GetByteArray(gameDataPath);
-		while (a.MoveNext()) {}
-
-#else
-        byteArray = File.ReadAllBytes(gameDataPath);
-
-#endif
-
-        // Load GameState	
-        MemoryStream ms = new MemoryStream(byteArray);
         GameData gd = (GameData)formatter.Deserialize(ms);
 
         this.songDataList = gd.songDataList;
@@ -140,30 +125,10 @@ public class GameData
         this.generalDataList = gd.generalDataList;
     }
 
-    private byte[] byteArray;
-
-    private IEnumerator GetByteArray(string dataPath)
+    public override string GetFileName()
     {
-        WWW www = new WWW(dataPath);
-        while (!www.isDone)
-        {
-            yield return null;
-        }
-
-        byteArray = www.bytes;
+        return GAME_DATA_PATH;
     }
-
-    public void SaveToFile(string filePath)
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-
-        // Get GameState byte[]
-        MemoryStream ms = new MemoryStream();
-        bf.Serialize(ms, this);
-        byte[] normalByteArray = ms.ToArray();
-
-        // Save to file
-        File.WriteAllBytes(filePath, normalByteArray);
-    }
+    #endregion
 
 }

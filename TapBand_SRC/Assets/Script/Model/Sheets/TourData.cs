@@ -9,4 +9,5 @@ public class TourData
     public float coinMultiplier;
     public float fanMultiplier;
     public float tapMultiplier;
+    public int fanRequirementToSkip;
 }

@@ -205,6 +205,7 @@ public class RawGameDataLoader : IGameDataLoader
             TryLoadFloat(i, "CoinMultiplier", out tourDataObject.coinMultiplier);
             TryLoadFloat(i, "FanMultiplier", out tourDataObject.fanMultiplier);
             TryLoadFloat(i, "TapMultiplier", out tourDataObject.tapMultiplier);
+            TryLoadInt(i, "FanRequirementToSkip", out tourDataObject.fanRequirementToSkip);
             tourDataList.Add(tourDataObject);
         }
 

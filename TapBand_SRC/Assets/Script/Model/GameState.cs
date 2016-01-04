@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System;
+using System.IO;
 
 [System.Serializable]
-public class GameState {
+public class GameState : LoadableData {
 
     #region Singleton access
     private static GameState _instance;
@@ -19,40 +23,50 @@ public class GameState {
     }
     #endregion
 
-    public int songLengthInSeconds = 20;
-    public int passedTimeInSeconds;
+    private CurrencyState currencyState;
+    private TourState tourState;
+    // TODO folytatni, pl:
+    // private ConcertState concertState;
 
-    public long money;
-    private long _numberOfFans;
-
-    public long numberOfFans
+    public TourState Tour
     {
         get
         {
-            return _numberOfFans;
+            return tourState;
+        }
+
+        set
+        {
+            tourState = value;
         }
     }
 
-    private int _tapDuringSong;
-
-    public int tapDuringSong
+    public CurrencyState Currency
     {
         get
         {
-            return _tapDuringSong;
+            return currencyState;
+        }
+
+        set
+        {
+            currencyState = value;
         }
     }
 
-    public void increaseTapAndNumberOfFans()
+    #region Overridden functions for loading/saving
+    protected override void LoadData(MemoryStream ms)
     {
-        _tapDuringSong++;
-        _numberOfFans++;
+        IFormatter formatter = new BinaryFormatter();
+        GameState gd = (GameState)formatter.Deserialize(ms);
+        
+        this.tourState = gd.tourState == null ? new TourState() : gd.tourState;
+        this.currencyState = gd.currencyState == null ? new CurrencyState() : gd.currencyState;
     }
 
-    public void resetTaps()
+    public override string GetFileName()
     {
-        _tapDuringSong = 0;
+        return "gamestate";
     }
-
-
+    #endregion
 }
