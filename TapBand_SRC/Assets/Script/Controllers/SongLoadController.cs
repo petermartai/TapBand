@@ -21,10 +21,11 @@ public class SongLoadController : MonoBehaviour {
     void Update () {
         timePassed += Time.deltaTime;
 
+        /*
         if (timePassed > GameState.instance.songLengthInSeconds)
         {
             timePassed = 0.0f;
-            GameState.instance.resetTaps();
+            //GameState.instance.resetTaps();
             oddPlay = !oddPlay;
 
             if (oddPlay)
@@ -39,5 +40,6 @@ public class SongLoadController : MonoBehaviour {
         }
 
         GameState.instance.passedTimeInSeconds = (int) timePassed;
+        */
 	}
 }

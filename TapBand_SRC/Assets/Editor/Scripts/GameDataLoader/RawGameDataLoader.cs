@@ -158,6 +158,7 @@ public class RawGameDataLoader : IGameDataLoader
         GameData gameData = new GameData();
         gameData.SongDataList = LoadSongData();
         gameData.TourDataList = LoadTourData();
+        gameData.ConcertDataList = LoadConcertData ();
         // TODO: continue
 		return gameData;
 	}
@@ -204,9 +205,34 @@ public class RawGameDataLoader : IGameDataLoader
             TryLoadFloat(i, "CoinMultiplier", out tourDataObject.coinMultiplier);
             TryLoadFloat(i, "FanMultiplier", out tourDataObject.fanMultiplier);
             TryLoadFloat(i, "TapMultiplier", out tourDataObject.tapMultiplier);
+            TryLoadInt(i, "FanRequirementToSkip", out tourDataObject.fanRequirementToSkip);
             tourDataList.Add(tourDataObject);
         }
 
         return tourDataList;
     }
+
+	private List<ConcertData> LoadConcertData()
+	{
+		currentSheet = "ConcertData";
+		currentRows = dataReader.GetRows (currentSheet);
+
+		List<ConcertData> concertDataList = new List<ConcertData> ();
+
+		int rowNum = currentRows.Count;
+		for (int i = 0; i<rowNum; i++) 
+		{
+			ConcertData concertDataObject = new ConcertData();
+
+			TryLoadInt(i, "ID", out concertDataObject.id);
+			TryLoadString(i, "Name", out concertDataObject.name);
+			TryLoadInt(i, "FanReward", out concertDataObject.fanReward);
+			TryLoadInt(i, "CoinReward", out concertDataObject.coinReward);
+			concertDataList.Add(concertDataObject);
+		}
+
+		return concertDataList;
+	
+	}
+
 }

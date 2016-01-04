@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Development : MonoBehaviour {
+public class DevelopmentUI : MonoBehaviour {
 
 	public GameObject Maythe4thButton,UpgradePanel;
 	

@@ -8,9 +8,23 @@ public class GameStateHolder : MonoBehaviour
 
     void Awake()
     {
-        gameData = new GameData();
-        gameData.TryLoadFromStreamingAssets();
-        gameState = new GameState();
-        // gameState.TryLoadFromStreamingAssets();
+        GameData.instance.TryLoadFromAssets(Application.streamingAssetsPath);
+        GameState.instance.TryLoadFromAssets(Application.persistentDataPath);
+
+        LoadDefaults();
+    }
+
+    void OnDestroy()
+    {
+        GameState.instance.SaveToFile(Application.persistentDataPath);
+    }
+
+    private void LoadDefaults()
+    {
+        if (GameState.instance.Tour.CurrentTourID == 0)
+        {
+            TourData firstTour = GameData.instance.TourDataList[0];
+            GameState.instance.Tour.CurrentTourID = firstTour.id;
+        }
     }
 }
