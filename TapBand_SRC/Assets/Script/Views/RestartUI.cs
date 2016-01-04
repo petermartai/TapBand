@@ -10,7 +10,7 @@ public class RestartUI : MonoBehaviour {
     public delegate bool RestartEnabledEvent();
     public event RestartEnabledEvent RestartEnabled;
 
-    public GameObject restartPanelButton,restartPanel,restartButton;
+    public GameObject restartPanelButton,restartPanel,restartButton,upgradePanel;
 	
 	public void Start()
 	{
@@ -21,6 +21,7 @@ public class RestartUI : MonoBehaviour {
 	{
 		restartPanel.SetActive (true);
 		restartPanelButton.SetActive (false);
+		upgradePanel.SetActive (false);
 		Time.timeScale=0;
 	}
 	
@@ -28,6 +29,7 @@ public class RestartUI : MonoBehaviour {
 	{ 
 		restartPanel.SetActive (false);
 		restartPanelButton.SetActive (true);
+		upgradePanel.SetActive (true);
         restartButton.GetComponent<Button>().interactable = false;
 		Time.timeScale=1;
 	}
